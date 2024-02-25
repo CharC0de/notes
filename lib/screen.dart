@@ -18,8 +18,21 @@ class ListScreen extends StatefulWidget {
 class _ListScreenState extends State<ListScreen> {
   bool hasData = false;
   List<Note> note = [];
+  List<int> selected = [];
   int index = 0;
   bool edit = false;
+
+  select(id) {
+    if (!selected.contains(id)) {
+      setState(() {
+        selected.add(id);
+      });
+    } else {
+      setState(() {
+        selected.remove(id);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +88,7 @@ class _ListScreenState extends State<ListScreen> {
               return ListTile(
                 title: Card(
                     child: Padding(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(10),
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -92,10 +105,11 @@ class _ListScreenState extends State<ListScreen> {
                                     fontStyle: FontStyle.italic, fontSize: 18),
                               ),
                               Text(note.date),
-                              Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  child: Text(note.description)),
+                              if (selected.contains(note.id))
+                                Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10),
+                                    child: Text(note.description)),
                             ]))),
                 trailing: edit
                     ? IconButton(
@@ -166,7 +180,9 @@ class _ListScreenState extends State<ListScreen> {
                           });
                         }
                       }
-                    : () {},
+                    : () {
+                        select(note.id);
+                      },
               );
             }).toList(),
           );

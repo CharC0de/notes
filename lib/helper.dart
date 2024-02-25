@@ -1,7 +1,18 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart'; //import these
 import 'nmodel.dart';
+import 'package:flutter/material.dart';
 
+class ThemeProvider extends ChangeNotifier {
+  bool _isDarkMode = false;
+
+  bool get isDarkMode => _isDarkMode;
+
+  void toggleDarkMode() {
+    _isDarkMode = !_isDarkMode;
+    notifyListeners();
+  }
+}
 class DBHElper {
   //this is to initialize the SQLite database
   //Database is from sqflite package
@@ -28,6 +39,7 @@ class DBHElper {
 
     const user = '''CREATE TABLE user(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      student_id TEXT,
       first_name TEXT,
       last_name TEXT,
       username TEXT,

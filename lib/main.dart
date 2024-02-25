@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 import 'demo.dart';
+import 'helper.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(const AcadNote());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: const AcadNote(),
+    ),
+  );
 }
 
 class AcadNote extends StatefulWidget {
@@ -24,6 +30,14 @@ class _AcadNoteState extends State<AcadNote> {
       theme: ThemeData(
         colorSchemeSeed: Colors.blueGrey,
       ),
+      darkTheme: ThemeData.dark().copyWith(
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.blueGrey.shade300,
+              brightness: Brightness.dark)),
+      themeMode: Provider.of<ThemeProvider>(context).isDarkMode
+          ? ThemeMode.dark
+          : ThemeMode.light,
+
       //create a new class for this
       home: FormScreen(),
     );

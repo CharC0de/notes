@@ -10,6 +10,7 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final TextEditingController _studentIdController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _usernameController = TextEditingController();
@@ -19,6 +20,7 @@ class _RegisterState extends State<Register> {
   bool success = false;
 
   Future<void> _registerUser() async {
+    final String studentId = _studentIdController.text.trim();
     final String firstName = _firstNameController.text.trim();
     final String lastName = _lastNameController.text.trim();
     final String username = _usernameController.text.trim();
@@ -28,6 +30,7 @@ class _RegisterState extends State<Register> {
     Database db = await DBHElper.initDB();
     try {
       await db.insert('user', {
+        "student_id": studentId,
         "first_name": firstName,
         "last_name": lastName,
         "username": username,
@@ -67,6 +70,8 @@ class _RegisterState extends State<Register> {
                   'Register',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
+                const SizedBox(height: 20),
+                _buildTextField(_studentIdController, "Student Id"),
                 const SizedBox(height: 20),
                 _buildTextField(_firstNameController, "First Name"),
                 const SizedBox(height: 10),
